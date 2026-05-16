@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Register for college events using the Smart Event Management Portal."
+    />
+    <title>Register | Smart Event Management Portal</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body data-page="register">
+    <header class="site-header">
+      <nav class="navbar" aria-label="Main navigation">
+        <a class="brand" href="index.html"
+          ><span class="brand-mark">SE</span><span>Smart Events</span></a
+        >
+        <button
+          class="nav-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="primary-menu"
+        >
+          ☰
+        </button>
+        <ul class="nav-menu" id="primary-menu">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="index.html#events">Events</a></li>
+          <li><a href="register.html">Register</a></li>
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="page-shell">
+      <section class="section form-layout">
+        <div class="form-intro">
+          <p class="eyebrow">Event registration</p>
+          <h1>Reserve your participation slot</h1>
+          <p>
+            Complete the form below. Registrations are saved temporarily in your
+            browser using local storage for dashboard viewing.
+          </p>
+          <ul class="check-list">
+            <li>Required field validation</li>
+            <li>Email and phone format checks</li>
+            <li>Optional password strength indicator</li>
+          </ul>
+        </div>
+
+        <form class="card-form" id="registration-form" novalidate>
+          <div
+            class="form-message"
+            id="registration-message"
+            role="status"
+          ></div>
+          <label class="field">
+            <span>Full Name *</span>
+            <input
+              type="text"
+              name="fullName"
+              id="fullName"
+              placeholder="Enter your full name"
+              required
+            />
+            <small class="error" data-error-for="fullName"></small>
+          </label>
+          <label class="field">
+            <span>Email *</span>
+            <input
+              type="email"
+              name="email"
+              id="email"
+              placeholder="name@example.com"
+              required
+            />
+            <small class="error" data-error-for="email"></small>
+          </label>
+          <label class="field">
+            <span>Phone Number *</span>
+            <input
+              type="tel"
+              name="phone"
+              id="phone"
+              placeholder="10-digit mobile number"
+              required
+            />
+            <small class="error" data-error-for="phone"></small>
+          </label>
+          <label class="field">
+            <span>College Name *</span>
+            <input
+              type="text"
+              name="college"
+              id="college"
+              placeholder="Your college name"
+              required
+            />
+            <small class="error" data-error-for="college"></small>
+          </label>
+          <label class="field">
+            <span>Event Selection *</span>
+            <select name="eventId" id="eventId" required>
+              <option value="">Choose an event</option>
+            </select>
+            <small class="error" data-error-for="eventId"></small>
+          </label>
+          <fieldset class="field radio-group">
+            <legend>Gender *</legend>
+            <label
+              ><input type="radio" name="gender" value="Female" /> Female</label
+            >
+            <label
+              ><input type="radio" name="gender" value="Male" /> Male</label
+            >
+            <label
+              ><input type="radio" name="gender" value="Other" /> Other</label
+            >
+            <small class="error" data-error-for="gender"></small>
+          </fieldset>
+          <label class="field">
+            <span>Registration Date *</span>
+            <input type="date" name="date" id="date" required />
+            <small class="error" data-error-for="date"></small>
+          </label>
+          <label class="field">
+            <span>Password (optional)</span>
+            <input
+              type="password"
+              name="password"
+              id="password"
+              placeholder="Use 8+ chars with number and symbol"
+            />
+            <meter id="password-meter" min="0" max="4" value="0"></meter>
+            <small id="password-hint">Password strength: Not entered</small>
+          </label>
+          <button class="btn primary full" type="submit">
+            Submit Registration
+          </button>
+        </form>
+      </section>
+    </main>
+
+    <footer class="site-footer compact-footer">
+      <p>© 2026 Smart Event Management Portal</p>
+      <a href="dashboard.html">View dashboard</a>
+    </footer>
+    <script src="js/script.js"></script>
+  </body>
+</html>

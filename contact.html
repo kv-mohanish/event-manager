@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Contact and feedback page for Smart Event Management Portal."
+    />
+    <title>Contact & Feedback | Smart Event Management Portal</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body data-page="contact">
+    <header class="site-header">
+      <nav class="navbar" aria-label="Main navigation">
+        <a class="brand" href="index.html"
+          ><span class="brand-mark">SE</span><span>Smart Events</span></a
+        >
+        <button
+          class="nav-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="primary-menu"
+        >
+          ☰
+        </button>
+        <ul class="nav-menu" id="primary-menu">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="index.html#events">Events</a></li>
+          <li><a href="register.html">Register</a></li>
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="page-shell">
+      <section class="section contact-grid">
+        <div>
+          <p class="eyebrow">Contact & feedback</p>
+          <h1>Tell us about your event experience</h1>
+          <p>
+            Use the form to send feedback, rate the portal, and help the
+            organizing team improve future events.
+          </p>
+          <div class="contact-card">
+            <h2>Event Help Desk</h2>
+            <p>Email: events@example.edu</p>
+            <p>Phone: +91 98765 43210</p>
+          </div>
+        </div>
+        <form class="card-form" id="feedback-form" novalidate>
+          <div class="form-message" id="feedback-message" role="status"></div>
+          <label class="field">
+            <span>Name *</span>
+            <input type="text" id="feedback-name" name="name" required />
+            <small class="error" data-error-for="feedback-name"></small>
+          </label>
+          <label class="field">
+            <span>Email *</span>
+            <input type="email" id="feedback-email" name="email" required />
+            <small class="error" data-error-for="feedback-email"></small>
+          </label>
+          <div class="field">
+            <span>Star Rating *</span>
+            <div
+              class="stars"
+              id="star-rating"
+              role="radiogroup"
+              aria-label="Rate your experience"
+            >
+              <button type="button" data-rating="1" aria-label="1 star">
+                ★
+              </button>
+              <button type="button" data-rating="2" aria-label="2 stars">
+                ★
+              </button>
+              <button type="button" data-rating="3" aria-label="3 stars">
+                ★
+              </button>
+              <button type="button" data-rating="4" aria-label="4 stars">
+                ★
+              </button>
+              <button type="button" data-rating="5" aria-label="5 stars">
+                ★
+              </button>
+            </div>
+            <input type="hidden" id="rating-value" name="rating" required />
+            <small class="error" data-error-for="rating-value"></small>
+          </div>
+          <label class="field">
+            <span>Message *</span>
+            <textarea
+              id="feedback-text"
+              name="message"
+              rows="5"
+              maxlength="250"
+              required
+              placeholder="Share feedback in 250 characters or fewer"
+            ></textarea>
+            <small><span id="char-count">0</span>/250 characters</small>
+            <small class="error" data-error-for="feedback-text"></small>
+          </label>
+          <button class="btn primary full" type="submit">Send Feedback</button>
+        </form>
+      </section>
+
+      <section class="section faq-section">
+        <div class="section-heading">
+          <p class="eyebrow">FAQ</p>
+          <h2>Frequently asked questions</h2>
+        </div>
+        <div class="accordion" id="faq-accordion">
+          <article class="faq-item">
+            <button type="button" aria-expanded="false">
+              Can I register for multiple events?
+            </button>
+            <p>
+              Yes. Submit the registration form separately for each event you
+              want to attend.
+            </p>
+          </article>
+          <article class="faq-item">
+            <button type="button" aria-expanded="false">
+              Where is my data stored?
+            </button>
+            <p>
+              Registration details are temporarily stored in your browser local
+              storage for this mini project.
+            </p>
+          </article>
+          <article class="faq-item">
+            <button type="button" aria-expanded="false">
+              Can this project use frameworks?
+            </button>
+            <p>
+              No. The implementation is intentionally built with only HTML5,
+              CSS3, and vanilla JavaScript.
+            </p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer compact-footer">
+      <p>© 2026 Smart Event Management Portal</p>
+      <a href="index.html#events">Explore events</a>
+    </footer>
+    <script src="js/script.js"></script>
+  </body>
+</html>
