@@ -154,6 +154,8 @@ function setupEventListing() {
     const categoryValue = category.value;
     const sortDirection = sort.value;
 
+    const filteredEvents = getEvents()
+      .filter((eventItem) => eventItem.name.toLowerCase().includes(searchTerm))
     const filteredEvents = EVENTS.filter((eventItem) =>
       eventItem.name.toLowerCase().includes(searchTerm),
     )
@@ -424,11 +426,11 @@ function setupDashboard() {
         return `
         <article class="dashboard-item">
           <div>
-            <h3>${eventName}</h3>
-            <p><strong>Participant:</strong> ${registration.fullName} · <strong>College:</strong> ${registration.college}</p>
-            <p><strong>Event date:</strong> ${formatDate(eventDate)} · <strong>Registered:</strong> ${registration.date}</p>
+            <h3>${escapeHtml(eventName)}</h3>
+            <p><strong>Participant:</strong> ${escapeHtml(registration.fullName)} · <strong>College:</strong> ${escapeHtml(registration.college)}</p>
+            <p><strong>Event date:</strong> ${formatDate(eventDate)} · <strong>Registered:</strong> ${escapeHtml(registration.date)}</p>
           </div>
-          <div class="countdown" data-countdown="${eventDate}">${getCountdownText(eventDate)}</div>
+          <div class="countdown" data-countdown="${escapeHtml(eventDate)}">${getCountdownText(eventDate)}</div>
         </article>
       `;
       })
