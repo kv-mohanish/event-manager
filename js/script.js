@@ -1,4 +1,4 @@
-const DEFAULT_EVENTS = [
+const EVENTS = [
   {
     id: "tech-sprint",
     name: "Tech Sprint Hackathon",
@@ -50,62 +50,20 @@ const DEFAULT_EVENTS = [
 ];
 
 const STORAGE_KEYS = {
-  events: "smartEventEvents",
   registrations: "smartEventRegistrations",
   theme: "smartEventTheme",
   feedback: "smartEventFeedback",
-  adminSession: "smartEventAdminSession",
-  participantSession: "smartEventParticipantSession",
-};
-
-const ADMIN_CREDENTIALS = {
-  username: "admin",
-  password: "admin123",
 };
 
 const $ = (selector, scope = document) => scope.querySelector(selector);
 const $$ = (selector, scope = document) =>
   Array.from(scope.querySelectorAll(selector));
 
-function escapeHtml(value = "") {
-  return String(value).replace(/[&<>'"]/g, (character) => {
-    const entities = {
-      "&": "&amp;",
-      "<": "&lt;",
-      ">": "&gt;",
-      "'": "&#39;",
-      '"': "&quot;",
-    };
-    return entities[character];
-  });
-}
-
-function slugify(value) {
-  return value
-    .toLowerCase()
-    .trim()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-|-$/g, "");
-}
-
 function formatDate(dateValue) {
   return new Intl.DateTimeFormat("en-IN", {
     dateStyle: "medium",
     timeStyle: "short",
   }).format(new Date(dateValue));
-}
-
-function getEvents() {
-  const storedEvents = localStorage.getItem(STORAGE_KEYS.events);
-  if (storedEvents === null) {
-    return DEFAULT_EVENTS;
-  }
-  const parsedEvents = JSON.parse(storedEvents);
-  return Array.isArray(parsedEvents) ? parsedEvents : DEFAULT_EVENTS;
-}
-
-function saveEvents(events) {
-  localStorage.setItem(STORAGE_KEYS.events, JSON.stringify(events));
 }
 
 function getRegistrations() {
@@ -119,27 +77,8 @@ function saveRegistrations(registrations) {
   );
 }
 
-function getFeedbacks() {
-  const storedFeedback = JSON.parse(
-    localStorage.getItem(STORAGE_KEYS.feedback) || "[]",
-  );
-  return Array.isArray(storedFeedback)
-    ? storedFeedback
-    : storedFeedback
-      ? [storedFeedback]
-      : [];
-}
-
-function saveFeedbacks(feedbacks) {
-  localStorage.setItem(STORAGE_KEYS.feedback, JSON.stringify(feedbacks));
-}
-
 function findEvent(eventId) {
-  return getEvents().find((eventItem) => eventItem.id === eventId);
-}
-
-function isAdminLoggedIn() {
-  return sessionStorage.getItem(STORAGE_KEYS.adminSession) === "active";
+  return EVENTS.find((eventItem) => eventItem.id === eventId);
 }
 
 function setupNavigation() {
@@ -193,71 +132,6 @@ function setupSlider() {
   }, 5000);
 }
 
-function setupLoginChoice() {
-  const adminForm = $("#admin-login-form");
-  const participantForm = $("#participant-login-panel");
-
-  if (!adminForm || !participantForm) {
-    return;
-  }
-
-  const chooserButtons = $$("[data-login-target]");
-  const panels = $$(".login-panel");
-  const adminMessage = $("#admin-login-message");
-  const participantMessage = $("#participant-login-message");
-
-  chooserButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-      chooserButtons.forEach((item) => item.classList.remove("active"));
-      panels.forEach((panel) => panel.classList.remove("active"));
-      button.classList.add("active");
-      $(`#${button.dataset.loginTarget}`).classList.add("active");
-    });
-  });
-
-  adminForm.addEventListener("submit", (event) => {
-    event.preventDefault();
-    const username = $("#main-admin-username").value.trim();
-    const password = $("#main-admin-password").value;
-
-    if (
-      username === ADMIN_CREDENTIALS.username &&
-      password === ADMIN_CREDENTIALS.password
-    ) {
-      sessionStorage.setItem(STORAGE_KEYS.adminSession, "active");
-      adminMessage.className = "form-message success";
-      adminMessage.textContent =
-        "Admin login successful. Opening admin panel...";
-      window.location.href = "admin.html";
-      return;
-    }
-
-    adminMessage.className = "form-message error-message";
-    adminMessage.textContent = "Use admin / admin123 for the demo admin login.";
-  });
-
-  participantForm.addEventListener("submit", (event) => {
-    event.preventDefault();
-    const name = $("#participant-name").value.trim();
-    const email = $("#participant-email").value.trim();
-
-    if (!name || !validateEmail(email)) {
-      participantMessage.className = "form-message error-message";
-      participantMessage.textContent =
-        "Enter your name and a valid email to continue as a participant.";
-      return;
-    }
-
-    sessionStorage.setItem(
-      STORAGE_KEYS.participantSession,
-      JSON.stringify({ name, email, loggedInAt: new Date().toISOString() }),
-    );
-    participantMessage.className = "form-message success";
-    participantMessage.textContent =
-      "Participant login saved for this session. Choose register or dashboard.";
-  });
-}
-
 function setupEventListing() {
   const list = $("#event-list");
   const search = $("#event-search");
@@ -269,13 +143,10 @@ function setupEventListing() {
   }
 
   const categories = [
-    ...new Set(getEvents().map((eventItem) => eventItem.category)),
+    ...new Set(EVENTS.map((eventItem) => eventItem.category)),
   ];
   category.innerHTML += categories
-    .map(
-      (item) =>
-        `<option value="${escapeHtml(item)}">${escapeHtml(item)}</option>`,
-    )
+    .map((item) => `<option value="${item}">${item}</option>`)
     .join("");
 
   const renderEvents = () => {
@@ -285,6 +156,9 @@ function setupEventListing() {
 
     const filteredEvents = getEvents()
       .filter((eventItem) => eventItem.name.toLowerCase().includes(searchTerm))
+    const filteredEvents = EVENTS.filter((eventItem) =>
+      eventItem.name.toLowerCase().includes(searchTerm),
+    )
       .filter(
         (eventItem) =>
           categoryValue === "all" || eventItem.category === categoryValue,
@@ -305,17 +179,17 @@ function setupEventListing() {
 
     list.innerHTML = filteredEvents
       .map((eventItem) => {
-        const categoryClass = slugify(eventItem.category);
+        const categoryClass = eventItem.category.toLowerCase();
         return `
         <article class="event-card">
-          <div class="event-art ${categoryClass}"><h3>${escapeHtml(eventItem.name)}</h3></div>
+          <div class="event-art ${categoryClass}"><h3>${eventItem.name}</h3></div>
           <div class="event-card-body">
             <div class="badge-row">
-              <span class="badge">${escapeHtml(eventItem.category)}</span>
+              <span class="badge">${eventItem.category}</span>
               <span>${formatDate(eventItem.date)}</span>
             </div>
-            <p>${escapeHtml(eventItem.description)}</p>
-            <a class="btn primary" href="register.html?event=${encodeURIComponent(eventItem.id)}">Register</a>
+            <p>${eventItem.description}</p>
+            <a class="btn primary" href="register.html?event=${eventItem.id}">Register</a>
           </div>
         </article>
       `;
@@ -336,12 +210,10 @@ function populateEventSelect() {
     return;
   }
 
-  select.innerHTML += getEvents()
-    .map(
-      (eventItem) =>
-        `<option value="${escapeHtml(eventItem.id)}">${escapeHtml(eventItem.name)} - ${formatDate(eventItem.date)}</option>`,
-    )
-    .join("");
+  select.innerHTML += EVENTS.map(
+    (eventItem) =>
+      `<option value="${eventItem.id}">${eventItem.name} - ${formatDate(eventItem.date)}</option>`,
+  ).join("");
 
   const params = new URLSearchParams(window.location.search);
   const requestedEvent = params.get("event");
@@ -638,17 +510,15 @@ function setupFeedbackForm() {
       return;
     }
 
-    const feedbacks = getFeedbacks();
-    feedbacks.push({
-      id: crypto.randomUUID(),
+    const feedback = {
       name: $("#feedback-name").value.trim(),
       email: $("#feedback-email").value.trim(),
       rating: Number(ratingInput.value),
       message: textArea.value.trim(),
       createdAt: new Date().toISOString(),
-    });
+    };
 
-    saveFeedbacks(feedbacks);
+    localStorage.setItem(STORAGE_KEYS.feedback, JSON.stringify(feedback));
     message.className = "form-message success";
     message.textContent = "Thank you! Your feedback has been stored locally.";
     form.reset();
@@ -668,264 +538,15 @@ function setupFaqAccordion() {
   });
 }
 
-function setupAdminPanel() {
-  const panel = $("#admin-panel");
-  const loginGate = $("#admin-login-gate");
-
-  if (!panel || !loginGate) {
-    return;
-  }
-
-  const adminGateForm = $("#admin-gate-form");
-  const gateMessage = $("#admin-gate-message");
-  const logoutButton = $("#admin-logout");
-  const eventForm = $("#admin-event-form");
-  const eventList = $("#admin-event-list");
-  const registrationList = $("#admin-registration-list");
-  const feedbackList = $("#admin-feedback-list");
-  const editIdInput = $("#admin-event-edit-id");
-  const eventFormTitle = $("#admin-event-form-title");
-  const eventSubmit = $("#admin-event-submit");
-  const eventCancel = $("#admin-event-cancel");
-  const eventMessage = $("#admin-event-message");
-
-  const syncAdminView = () => {
-    const loggedIn = isAdminLoggedIn();
-    loginGate.hidden = loggedIn;
-    panel.hidden = !loggedIn;
-    if (loggedIn) {
-      renderAdminEvents();
-      renderAdminRegistrations();
-      renderAdminFeedbacks();
-    }
-  };
-
-  const resetEventForm = () => {
-    eventForm.reset();
-    editIdInput.value = "";
-    eventFormTitle.textContent = "Add a new event";
-    eventSubmit.textContent = "Add Event";
-    eventCancel.hidden = true;
-  };
-
-  const getEventFormData = () => ({
-    name: $("#admin-event-name").value.trim(),
-    category: $("#admin-event-category").value.trim(),
-    date: $("#admin-event-date").value,
-    description: $("#admin-event-description").value.trim(),
-  });
-
-  function renderAdminEvents() {
-    const events = getEvents().sort(
-      (first, second) => new Date(first.date) - new Date(second.date),
-    );
-
-    if (!events.length) {
-      eventList.innerHTML =
-        '<div class="empty-state"><h3>No events available</h3><p>Add the first event using the form.</p></div>';
-      return;
-    }
-
-    eventList.innerHTML = events
-      .map(
-        (eventItem) => `
-        <article class="admin-row">
-          <div>
-            <h3>${escapeHtml(eventItem.name)}</h3>
-            <p><strong>${escapeHtml(eventItem.category)}</strong> · ${formatDate(eventItem.date)}</p>
-            <p>${escapeHtml(eventItem.description)}</p>
-          </div>
-          <div class="admin-actions">
-            <button class="btn secondary surface" type="button" data-edit-event="${escapeHtml(eventItem.id)}">Update</button>
-            <button class="btn danger" type="button" data-delete-event="${escapeHtml(eventItem.id)}">Delete</button>
-          </div>
-        </article>
-      `,
-      )
-      .join("");
-  }
-
-  function renderAdminRegistrations() {
-    const registrations = getRegistrations();
-
-    if (!registrations.length) {
-      registrationList.innerHTML =
-        '<div class="empty-state"><h3>No registrations yet</h3><p>Participant registrations will appear here.</p></div>';
-      return;
-    }
-
-    registrationList.innerHTML = registrations
-      .map((registration) => {
-        const eventItem = findEvent(registration.eventId);
-        return `
-        <article class="admin-row">
-          <div>
-            <h3>${escapeHtml(registration.fullName)}</h3>
-            <p><strong>Event:</strong> ${escapeHtml(eventItem ? eventItem.name : "Event removed")}</p>
-            <p>${escapeHtml(registration.email)} · ${escapeHtml(registration.phone)} · ${escapeHtml(registration.college)}</p>
-          </div>
-          <div class="admin-actions">
-            <button class="btn danger" type="button" data-delete-registration="${escapeHtml(registration.id)}">Remove</button>
-          </div>
-        </article>
-      `;
-      })
-      .join("");
-  }
-
-  function renderAdminFeedbacks() {
-    const feedbacks = getFeedbacks();
-
-    if (!feedbacks.length) {
-      feedbackList.innerHTML =
-        '<div class="empty-state"><h3>No feedback submitted</h3><p>Feedback messages and ratings will appear here.</p></div>';
-      return;
-    }
-
-    feedbackList.innerHTML = feedbacks
-      .map(
-        (feedback) => `
-        <article class="admin-row">
-          <div>
-            <h3>${escapeHtml(feedback.name)} · ${"★".repeat(feedback.rating || 0)}</h3>
-            <p>${escapeHtml(feedback.email)} · ${formatDate(feedback.createdAt)}</p>
-            <p>${escapeHtml(feedback.message)}</p>
-          </div>
-          <div class="admin-actions">
-            <button class="btn danger" type="button" data-delete-feedback="${escapeHtml(feedback.id)}">Delete</button>
-          </div>
-        </article>
-      `,
-      )
-      .join("");
-  }
-
-  adminGateForm.addEventListener("submit", (event) => {
-    event.preventDefault();
-    const username = $("#admin-username").value.trim();
-    const password = $("#admin-password").value;
-
-    if (
-      username === ADMIN_CREDENTIALS.username &&
-      password === ADMIN_CREDENTIALS.password
-    ) {
-      sessionStorage.setItem(STORAGE_KEYS.adminSession, "active");
-      gateMessage.className = "form-message success";
-      gateMessage.textContent = "Admin login successful.";
-      adminGateForm.reset();
-      syncAdminView();
-      return;
-    }
-
-    gateMessage.className = "form-message error-message";
-    gateMessage.textContent = "Invalid credentials. Demo: admin / admin123.";
-  });
-
-  logoutButton.addEventListener("click", () => {
-    sessionStorage.removeItem(STORAGE_KEYS.adminSession);
-    resetEventForm();
-    syncAdminView();
-  });
-
-  eventForm.addEventListener("submit", (event) => {
-    event.preventDefault();
-    const data = getEventFormData();
-
-    if (!data.name || !data.category || !data.date || !data.description) {
-      eventMessage.className = "form-message error-message";
-      eventMessage.textContent = "Complete all event fields before saving.";
-      return;
-    }
-
-    const events = getEvents();
-    const editingId = editIdInput.value;
-
-    if (editingId) {
-      const nextEvents = events.map((eventItem) =>
-        eventItem.id === editingId ? { ...eventItem, ...data } : eventItem,
-      );
-      saveEvents(nextEvents);
-      eventMessage.className = "form-message success";
-      eventMessage.textContent = "Event updated successfully.";
-    } else {
-      const id = `${slugify(data.name)}-${Date.now()}`;
-      events.push({ id, ...data });
-      saveEvents(events);
-      eventMessage.className = "form-message success";
-      eventMessage.textContent = "Event added successfully.";
-    }
-
-    resetEventForm();
-    renderAdminEvents();
-  });
-
-  eventCancel.addEventListener("click", resetEventForm);
-
-  eventList.addEventListener("click", (event) => {
-    const editButton = event.target.closest("[data-edit-event]");
-    const deleteButton = event.target.closest("[data-delete-event]");
-
-    if (editButton) {
-      const eventItem = findEvent(editButton.dataset.editEvent);
-      if (!eventItem) return;
-      editIdInput.value = eventItem.id;
-      $("#admin-event-name").value = eventItem.name;
-      $("#admin-event-category").value = eventItem.category;
-      $("#admin-event-date").value = eventItem.date;
-      $("#admin-event-description").value = eventItem.description;
-      eventFormTitle.textContent = "Update event";
-      eventSubmit.textContent = "Save Update";
-      eventCancel.hidden = false;
-      eventForm.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-
-    if (deleteButton) {
-      const nextEvents = getEvents().filter(
-        (eventItem) => eventItem.id !== deleteButton.dataset.deleteEvent,
-      );
-      saveEvents(nextEvents);
-      renderAdminEvents();
-      renderAdminRegistrations();
-    }
-  });
-
-  registrationList.addEventListener("click", (event) => {
-    const deleteButton = event.target.closest("[data-delete-registration]");
-    if (!deleteButton) return;
-    saveRegistrations(
-      getRegistrations().filter(
-        (registration) =>
-          registration.id !== deleteButton.dataset.deleteRegistration,
-      ),
-    );
-    renderAdminRegistrations();
-  });
-
-  feedbackList.addEventListener("click", (event) => {
-    const deleteButton = event.target.closest("[data-delete-feedback]");
-    if (!deleteButton) return;
-    saveFeedbacks(
-      getFeedbacks().filter(
-        (feedback) => feedback.id !== deleteButton.dataset.deleteFeedback,
-      ),
-    );
-    renderAdminFeedbacks();
-  });
-
-  syncAdminView();
-}
-
 function init() {
   setupNavigation();
   setupThemeToggle();
   setupSlider();
-  setupLoginChoice();
   setupEventListing();
   setupRegistrationForm();
   setupDashboard();
   setupFeedbackForm();
   setupFaqAccordion();
-  setupAdminPanel();
 }
 
 document.addEventListener("DOMContentLoaded", init);

@@ -27,12 +27,10 @@
         </button>
         <ul class="nav-menu" id="primary-menu">
           <li><a href="index.html">Home</a></li>
-          <li><a href="index.html#login">Login/Register</a></li>
           <li><a href="index.html#events">Events</a></li>
           <li><a href="register.html">Register</a></li>
           <li><a href="dashboard.html">Dashboard</a></li>
           <li><a href="contact.html">Contact</a></li>
-          <li><a href="admin.html">Admin</a></li>
         </ul>
       </nav>
     </header>
@@ -97,108 +95,6 @@
             data-slide="2"
             aria-label="Show slide 3"
           ></button>
-        </div>
-      </section>
-
-      <section class="section login-choice-section" id="login">
-        <div class="section-heading split">
-          <div>
-            <p class="eyebrow">Login or register</p>
-            <h2>Choose how you want to continue</h2>
-          </div>
-          <a class="text-link" href="register.html"
-            >Skip login and register →</a
-          >
-        </div>
-        <div class="login-choice-grid">
-          <article class="info-card login-copy">
-            <h3>Participant access</h3>
-            <p>
-              Students can start a session with name and email, then register
-              for events or open the participant dashboard.
-            </p>
-            <div class="hero-actions stacked-actions">
-              <a class="btn primary" href="register.html"
-                >Participant Register</a
-              >
-              <a class="btn secondary surface" href="dashboard.html"
-                >Participant Dashboard</a
-              >
-            </div>
-          </article>
-          <article class="card-form login-card">
-            <div
-              class="login-tabs"
-              role="tablist"
-              aria-label="Choose login type"
-            >
-              <button
-                class="active"
-                type="button"
-                data-login-target="participant-login-panel"
-              >
-                Participant Login
-              </button>
-              <button type="button" data-login-target="admin-login-form">
-                Admin Login
-              </button>
-            </div>
-            <form class="login-panel active" id="participant-login-panel">
-              <div
-                class="form-message"
-                id="participant-login-message"
-                role="status"
-              ></div>
-              <label class="field">
-                <span>Participant Name</span>
-                <input
-                  id="participant-name"
-                  type="text"
-                  placeholder="Your name"
-                />
-              </label>
-              <label class="field">
-                <span>Participant Email</span>
-                <input
-                  id="participant-email"
-                  type="email"
-                  placeholder="name@example.com"
-                />
-              </label>
-              <button class="btn primary full" type="submit">
-                Continue as Participant
-              </button>
-            </form>
-            <form class="login-panel" id="admin-login-form">
-              <div
-                class="form-message"
-                id="admin-login-message"
-                role="status"
-              ></div>
-              <label class="field">
-                <span>Admin Username</span>
-                <input
-                  id="main-admin-username"
-                  type="text"
-                  placeholder="admin"
-                  autocomplete="username"
-                />
-              </label>
-              <label class="field">
-                <span>Admin Password</span>
-                <input
-                  id="main-admin-password"
-                  type="password"
-                  placeholder="admin123"
-                  autocomplete="current-password"
-                />
-              </label>
-              <button class="btn primary full" type="submit">
-                Open Admin Panel
-              </button>
-              <small>Demo credentials: admin / admin123</small>
-            </form>
-          </article>
         </div>
       </section>
 
