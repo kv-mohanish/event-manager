@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Smart Event Management Portal for college events, registrations, schedules, dashboards, and feedback."
+    />
+    <title>Smart Event Management Portal</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body data-page="home">
+    <header class="site-header">
+      <nav class="navbar" aria-label="Main navigation">
+        <a class="brand" href="index.html" aria-label="EventHub home">
+          <span class="brand-mark">SE</span>
+          <span>Smart Events</span>
+        </a>
+        <button
+          class="nav-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="primary-menu"
+        >
+          ☰
+        </button>
+        <ul class="nav-menu" id="primary-menu">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="index.html#login">Login/Register</a></li>
+          <li><a href="index.html#events">Events</a></li>
+          <li><a href="register.html">Register</a></li>
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="admin.html">Admin</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" id="top" aria-label="Event banner slider">
+        <div class="hero-slider" id="hero-slider">
+          <article class="slide active" data-gradient="tech">
+            <div class="slide-content">
+              <p class="eyebrow">College Fest 2026</p>
+              <h1>
+                Plan, discover, and register for campus events in one smart
+                portal.
+              </h1>
+              <p>
+                Explore technical contests, cultural showcases, sports meets,
+                workshops, and social impact drives curated for students.
+              </p>
+              <div class="hero-actions">
+                <a class="btn primary" href="register.html">Register Now</a>
+                <a class="btn secondary" href="#events">View Events</a>
+              </div>
+            </div>
+          </article>
+          <article class="slide" data-gradient="culture">
+            <div class="slide-content">
+              <p class="eyebrow">Live Schedules</p>
+              <h2>Never miss a keynote, performance, or competition slot.</h2>
+              <p>
+                Dynamic schedules and countdowns keep participants informed
+                before every event begins.
+              </p>
+            </div>
+          </article>
+          <article class="slide" data-gradient="sports">
+            <div class="slide-content">
+              <p class="eyebrow">Team Ready</p>
+              <h2>Built as a clean HTML, CSS, and JavaScript mini project.</h2>
+              <p>
+                Five trainee modules combine responsive layouts, form
+                validation, browser storage, and DOM interactions.
+              </p>
+            </div>
+          </article>
+        </div>
+        <div class="slider-controls" aria-label="Slider controls">
+          <button
+            class="slider-dot active"
+            type="button"
+            data-slide="0"
+            aria-label="Show slide 1"
+          ></button>
+          <button
+            class="slider-dot"
+            type="button"
+            data-slide="1"
+            aria-label="Show slide 2"
+          ></button>
+          <button
+            class="slider-dot"
+            type="button"
+            data-slide="2"
+            aria-label="Show slide 3"
+          ></button>
+        </div>
+      </section>
+
+      <section class="section login-choice-section" id="login">
+        <div class="section-heading split">
+          <div>
+            <p class="eyebrow">Login or register</p>
+            <h2>Choose how you want to continue</h2>
+          </div>
+          <a class="text-link" href="register.html"
+            >Skip login and register →</a
+          >
+        </div>
+        <div class="login-choice-grid">
+          <article class="info-card login-copy">
+            <h3>Participant access</h3>
+            <p>
+              Students can start a session with name and email, then register
+              for events or open the participant dashboard.
+            </p>
+            <div class="hero-actions stacked-actions">
+              <a class="btn primary" href="register.html"
+                >Participant Register</a
+              >
+              <a class="btn secondary surface" href="dashboard.html"
+                >Participant Dashboard</a
+              >
+            </div>
+          </article>
+          <article class="card-form login-card">
+            <div
+              class="login-tabs"
+              role="tablist"
+              aria-label="Choose login type"
+            >
+              <button
+                class="active"
+                type="button"
+                data-login-target="participant-login-panel"
+              >
+                Participant Login
+              </button>
+              <button type="button" data-login-target="admin-login-form">
+                Admin Login
+              </button>
+            </div>
+            <form class="login-panel active" id="participant-login-panel">
+              <div
+                class="form-message"
+                id="participant-login-message"
+                role="status"
+              ></div>
+              <label class="field">
+                <span>Participant Name</span>
+                <input
+                  id="participant-name"
+                  type="text"
+                  placeholder="Your name"
+                />
+              </label>
+              <label class="field">
+                <span>Participant Email</span>
+                <input
+                  id="participant-email"
+                  type="email"
+                  placeholder="name@example.com"
+                />
+              </label>
+              <button class="btn primary full" type="submit">
+                Continue as Participant
+              </button>
+            </form>
+            <form class="login-panel" id="admin-login-form">
+              <div
+                class="form-message"
+                id="admin-login-message"
+                role="status"
+              ></div>
+              <label class="field">
+                <span>Admin Username</span>
+                <input
+                  id="main-admin-username"
+                  type="text"
+                  placeholder="admin"
+                  autocomplete="username"
+                />
+              </label>
+              <label class="field">
+                <span>Admin Password</span>
+                <input
+                  id="main-admin-password"
+                  type="password"
+                  placeholder="admin123"
+                  autocomplete="current-password"
+                />
+              </label>
+              <button class="btn primary full" type="submit">
+                Open Admin Panel
+              </button>
+              <small>Demo credentials: admin / admin123</small>
+            </form>
+          </article>
+        </div>
+      </section>
+
+      <section class="section about" id="about">
+        <div class="section-heading">
+          <p class="eyebrow">About the portal</p>
+          <h2>One platform for student events</h2>
+        </div>
+        <div class="about-grid">
+          <article class="info-card">
+            <h3>Discover</h3>
+            <p>
+              Browse events by category, date, and name with instant client-side
+              searching and filtering.
+            </p>
+          </article>
+          <article class="info-card">
+            <h3>Register</h3>
+            <p>
+              Submit participant details through a validated form and
+              temporarily store registrations in the browser.
+            </p>
+          </article>
+          <article class="info-card">
+            <h3>Track</h3>
+            <p>
+              Review registered events, see counters, and monitor countdown
+              timers from the dashboard.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="events">
+        <div class="section-heading split">
+          <div>
+            <p class="eyebrow">Featured events</p>
+            <h2>Upcoming highlights</h2>
+          </div>
+          <a class="text-link" href="register.html">Register for an event →</a>
+        </div>
+
+        <div class="event-tools" aria-label="Event search and filters">
+          <label class="field compact">
+            <span>Search by name</span>
+            <input
+              type="search"
+              id="event-search"
+              placeholder="Search hackathon, dance, quiz..."
+            />
+          </label>
+          <label class="field compact">
+            <span>Filter category</span>
+            <select id="category-filter">
+              <option value="all">All Categories</option>
+            </select>
+          </label>
+          <label class="field compact">
+            <span>Sort by date</span>
+            <select id="date-sort">
+              <option value="asc">Earliest first</option>
+              <option value="desc">Latest first</option>
+            </select>
+          </label>
+        </div>
+        <div class="event-grid" id="event-list" aria-live="polite"></div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div>
+        <h2>Smart Events</h2>
+        <p>
+          Responsive HTML5, CSS3, and JavaScript event portal for college mini
+          projects.
+        </p>
+      </div>
+      <nav aria-label="Footer navigation">
+        <a href="#top">Back to top</a>
+        <a href="register.html">Register</a>
+        <a href="contact.html">Feedback</a>
+      </nav>
+    </footer>
+
+    <script src="js/script.js"></script>
+  </body>
+</html>

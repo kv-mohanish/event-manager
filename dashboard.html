@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Participant dashboard for registered college events."
+    />
+    <title>Dashboard | Smart Event Management Portal</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body data-page="dashboard">
+    <header class="site-header">
+      <nav class="navbar" aria-label="Main navigation">
+        <a class="brand" href="index.html"
+          ><span class="brand-mark">SE</span><span>Smart Events</span></a
+        >
+        <button
+          class="nav-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="primary-menu"
+        >
+          ☰
+        </button>
+        <ul class="nav-menu" id="primary-menu">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="index.html#login">Login/Register</a></li>
+          <li><a href="index.html#events">Events</a></li>
+          <li><a href="register.html">Register</a></li>
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="admin.html">Admin</a></li>
+        </ul>
+        <button
+          class="theme-toggle"
+          id="theme-toggle"
+          type="button"
+          aria-pressed="false"
+        >
+          🌙 Theme
+        </button>
+      </nav>
+    </header>
+
+    <main class="page-shell">
+      <section class="section dashboard-hero">
+        <div>
+          <p class="eyebrow">Participant dashboard</p>
+          <h1>Your registered events</h1>
+          <p>
+            Registrations are loaded from browser local storage. Use this page
+            to track event counts and countdowns.
+          </p>
+        </div>
+        <div class="stat-card">
+          <span id="registration-count">0</span>
+          <p>Total registrations</p>
+        </div>
+      </section>
+      <section class="section">
+        <div class="section-heading split">
+          <h2>Registration list</h2>
+          <button class="btn danger" id="clear-registrations" type="button">
+            Clear Registrations
+          </button>
+        </div>
+        <div
+          class="dashboard-list"
+          id="dashboard-list"
+          aria-live="polite"
+        ></div>
+      </section>
+    </main>
+
+    <footer class="site-footer compact-footer">
+      <p>© 2026 Smart Event Management Portal</p>
+      <a href="register.html">Add another registration</a>
+    </footer>
+    <script src="js/script.js"></script>
+  </body>
+</html>
